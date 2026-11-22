@@ -19,11 +19,33 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   ]);
 
   const currentCategory = categories.find((c) => c.slug === slug);
-
-  // Jika nama kategori default
   const categoryName =
     currentCategory?.name ||
     slug.charAt(0).toUpperCase() + slug.slice(1);
+
+  // Fallback demo posts jika database masih kosong
+  const fallbackCategoryPosts = [
+    {
+      id: `cat-${slug}-1`,
+      title: `Sorotan Terkini Rubrik ${categoryName}: Dinamika Perkembangan dan Analisis Mendalam`,
+      slug: `sorotan-terkini-rubrik-${slug}`,
+      excerpt: `Laporan komprehensif dari meja redaksi mengenai peristiwa terhangat seputar ${categoryName} yang patut Anda cermati hari ini.`,
+      cover_image: "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=800&q=80",
+      published_at: "2026-11-23T10:00:00.000Z",
+      author: { full_name: "Tim Redaksi" },
+    },
+    {
+      id: `cat-${slug}-2`,
+      title: `Kebijakan dan Tantangan Baru di Sektor ${categoryName} Menjelang Akhir Tahun`,
+      slug: `kebijakan-dan-tantangan-baru-${slug}`,
+      excerpt: `Wawancara eksklusif bersama para pakar dan pemangku kepentingan mengenai prospek pertumbuhan di sektor ini.`,
+      cover_image: "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=800&q=80",
+      published_at: "2026-11-23T08:30:00.000Z",
+      author: { full_name: "Budi Santoso" },
+    },
+  ];
+
+  const displayPosts = posts.length > 0 ? posts : fallbackCategoryPosts;
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col">
@@ -54,59 +76,42 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
         </div>
 
         {/* Articles Grid */}
-        {posts.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {posts.map((post) => (
-              <Link
-                key={post.id}
-                href={`/berita/${post.slug}`}
-                className="group flex flex-col justify-between bg-white rounded-xl border border-slate-200 overflow-hidden hover:shadow-md hover:border-blue-400 transition-all"
-              >
-                <div>
-                  <div className="aspect-[16/10] bg-slate-100 overflow-hidden">
-                    <img
-                      src={
-                        post.cover_image ||
-                        "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=600&q=80"
-                      }
-                      alt={post.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                  </div>
-                  <div className="p-5">
-                    <h3 className="text-base font-bold text-slate-900 group-hover:text-blue-600 line-clamp-2 font-serif leading-snug">
-                      {post.title}
-                    </h3>
-                    {post.excerpt && (
-                      <p className="text-xs text-slate-500 mt-2 line-clamp-2 font-sans">
-                        {post.excerpt}
-                      </p>
-                    )}
-                  </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {displayPosts.map((post) => (
+            <Link
+              key={post.id}
+              href={`/berita/${post.slug}`}
+              className="group flex flex-col justify-between bg-white rounded-xl border border-slate-200 overflow-hidden hover:shadow-md hover:border-blue-400 transition-all"
+            >
+              <div>
+                <div className="aspect-[16/10] bg-slate-100 overflow-hidden">
+                  <img
+                    src={
+                      post.cover_image ||
+                      "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=600&q=80"
+                    }
+                    alt={post.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
                 </div>
-                <div className="px-5 pb-5 pt-2 text-xs text-slate-400 border-t border-slate-100 flex items-center justify-between">
-                  <span>{post.author?.full_name || "Redaksi"}</span>
-                  <span>{formatDate(post.published_at)}</span>
+                <div className="p-5">
+                  <h3 className="text-base font-bold text-slate-900 group-hover:text-blue-600 line-clamp-2 font-serif leading-snug">
+                    {post.title}
+                  </h3>
+                  {post.excerpt && (
+                    <p className="text-xs text-slate-500 mt-2 line-clamp-2 font-sans">
+                      {post.excerpt}
+                    </p>
+                  )}
                 </div>
-              </Link>
-            ))}
-          </div>
-        ) : (
-          <div className="text-center py-20 bg-white rounded-2xl border border-slate-200 p-8">
-            <FolderTree className="h-12 w-12 text-slate-300 mx-auto mb-3" />
-            <h3 className="text-base font-bold text-slate-800">
-              Belum ada artikel di rubrik {categoryName}
-            </h3>
-            <p className="text-xs text-slate-500 mt-1 mb-4">
-              Naskah berita untuk rubrik ini sedang dalam proses penyusunan oleh redaksi.
-            </p>
-            <Link href="/">
-              <span className="text-xs font-semibold text-blue-600 hover:underline">
-                ← Kembali ke Beranda
-              </span>
+              </div>
+              <div className="px-5 pb-5 pt-2 text-xs text-slate-400 border-t border-slate-100 flex items-center justify-between">
+                <span>{post.author?.full_name || "Redaksi"}</span>
+                <span>{formatDate(post.published_at)}</span>
+              </div>
             </Link>
-          </div>
-        )}
+          ))}
+        </div>
       </main>
 
       <PublicFooter />

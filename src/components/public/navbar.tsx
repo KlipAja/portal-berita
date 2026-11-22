@@ -3,9 +3,10 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { Newspaper, Search, Users, Menu, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Category, Post } from "@/types/news";
+import { cn } from "@/lib/utils";
 
 interface PublicNavbarProps {
   categories?: Category[];
@@ -48,7 +49,7 @@ export function PublicNavbar({
     categories.length > 0 ? categories : defaultCategories;
 
   return (
-    <header className="sticky top-0 z-40 bg-white shadow-sm border-b border-slate-200">
+    <header className="sticky top-0 z-50 bg-white shadow-sm border-b border-slate-200">
       {/* Top Bar: Breaking News & Date */}
       <div className="bg-slate-900 text-white text-xs py-1.5 px-4">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
@@ -93,22 +94,23 @@ export function PublicNavbar({
 
         {/* Action Right */}
         <div className="flex items-center gap-2 sm:gap-3">
-          <Link href="/admin">
-            <Button
-              variant="outline"
-              size="sm"
-              className="text-xs flex items-center gap-1.5 border-slate-300"
-            >
-              <Users className="h-4 w-4 text-slate-600" />
-              <span className="hidden sm:inline">Meja Redaksi</span>
-            </Button>
+          <Link
+            href="/admin"
+            className={cn(
+              buttonVariants({ variant: "outline", size: "sm" }),
+              "text-xs flex items-center gap-1.5 border-slate-300 text-slate-700 hover:text-blue-600 hover:border-blue-400 transition-colors"
+            )}
+          >
+            <Users className="h-4 w-4 text-slate-600" />
+            <span className="hidden sm:inline">Meja Redaksi</span>
           </Link>
 
           {/* Mobile Menu Button */}
           <button
             type="button"
+            aria-label="Toggle Menu"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100"
+            className="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100 cursor-pointer"
           >
             {mobileMenuOpen ? (
               <X className="h-6 w-6" />
@@ -125,7 +127,7 @@ export function PublicNavbar({
           <div className="flex items-center space-x-1 py-1.5 text-sm font-semibold text-slate-700">
             <Link
               href="/"
-              className="px-3 py-1.5 rounded-lg hover:text-blue-600 hover:bg-white transition-colors"
+              className="px-3 py-1.5 rounded-lg hover:text-blue-600 hover:bg-white transition-colors cursor-pointer"
             >
               Beranda
             </Link>
@@ -133,7 +135,7 @@ export function PublicNavbar({
               <Link
                 key={cat.id}
                 href={`/kategori/${cat.slug}`}
-                className="px-3 py-1.5 rounded-lg hover:text-blue-600 hover:bg-white transition-colors"
+                className="px-3 py-1.5 rounded-lg hover:text-blue-600 hover:bg-white transition-colors cursor-pointer"
               >
                 {cat.name}
               </Link>
@@ -148,7 +150,7 @@ export function PublicNavbar({
 
       {/* Mobile Menu Dropdown */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-slate-200 bg-white p-4 space-y-2">
+        <div className="md:hidden border-t border-slate-200 bg-white p-4 space-y-2 shadow-lg">
           <Link
             href="/"
             onClick={() => setMobileMenuOpen(false)}
@@ -168,11 +170,11 @@ export function PublicNavbar({
           ))}
           <div className="pt-2 border-t border-slate-100">
             <Link
-              href="/admin/login"
+              href="/admin"
               onClick={() => setMobileMenuOpen(false)}
-              className="block px-3 py-2 rounded-lg text-sm font-medium text-blue-600 bg-blue-50"
+              className="block px-3 py-2 rounded-lg text-sm font-semibold text-blue-600 bg-blue-50 text-center"
             >
-              Masuk Portal Redaksi
+              Masuk Meja Redaksi
             </Link>
           </div>
         </div>
