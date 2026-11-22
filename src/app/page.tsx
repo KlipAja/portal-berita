@@ -39,7 +39,7 @@ export default async function HomePage() {
       cover_caption: "Foto: Ilustrasi Energi Terbarukan",
       category: { name: "Nasional", slug: "nasional" },
       author: { full_name: "Budi Santoso", slug: "budi-santoso" },
-      published_at: new Date().toISOString(),
+      published_at: "2026-11-23T10:00:00.000Z",
       views_count: 1420,
     },
     {
@@ -50,7 +50,7 @@ export default async function HomePage() {
       cover_image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80",
       category: { name: "Teknologi", slug: "teknologi" },
       author: { full_name: "Siti Rahma", slug: "siti-rahma" },
-      published_at: new Date().toISOString(),
+      published_at: "2026-11-23T09:30:00.000Z",
       views_count: 980,
     },
     {
@@ -61,7 +61,7 @@ export default async function HomePage() {
       cover_image: "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&w=800&q=80",
       category: { name: "Bisnis", slug: "bisnis" },
       author: { full_name: "Ahmad Fauzi", slug: "ahmad-fauzi" },
-      published_at: new Date().toISOString(),
+      published_at: "2026-11-23T08:45:00.000Z",
       views_count: 750,
     },
     {
@@ -72,7 +72,7 @@ export default async function HomePage() {
       cover_image: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=800&q=80",
       category: { name: "Olahraga", slug: "olahraga" },
       author: { full_name: "Budi Santoso", slug: "budi-santoso" },
-      published_at: new Date().toISOString(),
+      published_at: "2026-11-23T07:15:00.000Z",
       views_count: 2310,
     },
   ];

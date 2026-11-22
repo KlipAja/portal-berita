@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Newspaper, Search, Users, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -17,6 +17,22 @@ export function PublicNavbar({
   breakingNews = [],
 }: PublicNavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [todayFormatted, setTodayFormatted] = useState("Senin, 23 November 2026");
+
+  useEffect(() => {
+    try {
+      const formatted = new Intl.DateTimeFormat("id-ID", {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+        timeZone: "Asia/Jakarta",
+      }).format(new Date());
+      setTodayFormatted(formatted);
+    } catch (e) {
+      // fallback
+    }
+  }, []);
 
   // Kategori default jika database belum diisi
   const defaultCategories = [
@@ -30,13 +46,6 @@ export function PublicNavbar({
 
   const displayCategories =
     categories.length > 0 ? categories : defaultCategories;
-
-  const todayFormatted = new Intl.DateTimeFormat("id-ID", {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  }).format(new Date());
 
   return (
     <header className="sticky top-0 z-40 bg-white shadow-sm border-b border-slate-200">
@@ -60,7 +69,7 @@ export function PublicNavbar({
               )}
             </div>
           </div>
-          <div className="hidden sm:block text-slate-400 text-[11px] shrink-0">
+          <div suppressHydrationWarning className="hidden sm:block text-slate-400 text-[11px] shrink-0">
             {todayFormatted}
           </div>
         </div>
